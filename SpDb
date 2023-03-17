@@ -1,0 +1,37 @@
+CREATE TABLE BANKUSER(
+	userID int primary key,
+	userName varchar(50),
+	AccountTitle varchar(50),
+	AccountType varchar(50),
+	Balance Decimal(10,2)
+);
+
+CREATE PROCEDURE spBankUsers
+	@userID int = NULL,
+	@userName varchar(50) = NULL,
+	@AccountTitle varchar(50) = NULL,
+	@AccountType varchar(50) = NULL,
+	@Balance Decimal(10,2) = NULL,
+	@Action varchar(10)
+	AS
+	BEGIN
+	IF @Action = 'INSERT'
+	BEGIN
+	INSERT INTO BANKUSER(userID,userName,AccountTitle,AccountType,Balance)
+	VALUES(@userID,@userName,@AccountTitle,@AccountType,@Balance)
+	END
+	ELSE IF @Action = 'UPDATE'
+	BEGIN
+	UPDATE BANKUSER 
+	SET userName = @userName,
+	AccountTitle = @AccountTitle,
+	AccountType = @AccountType,
+	Balance = @Balance
+	WHERE userID = @userID
+	END
+	ELSE IF @Action = 'DELETE'
+	BEGIN
+	DELETE FROM BANKUSER
+	WHERE userID = @userID
+	END
+	END
